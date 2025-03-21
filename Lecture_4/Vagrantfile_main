@@ -1,0 +1,38 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  # VM1: Загальнодоступний вебсервер
+  config.vm.define "vm1" do |vm1|
+    vm1.vm.box = "bento/ubuntu-24.04"
+    vm1.vm.hostname = "public-webserver"
+    vm1.vm.network "public_network", bridge: "Intel(R) Wi-Fi 6E AX210 160MHz"
+    vm1.vm.synced_folder "./shared_vm1", "/vagrant_shared"
+    vm1.vm.provision "shell", inline: <<-SHELL
+      sudo apt update
+      sudo apt install -y nginx
+    SHELL
+  end
+
+  # VM2: Приватний сервер (зовнішній provision файл)
+  config.vm.define "vm2" do |vm2|
+    vm2.vm.box = "bento/ubuntu-24.04"
+    vm2.vm.hostname = "private-server"
+    vm2.vm.network "private_network", ip: "192.168.56.10"
+    vm2.vm.synced_folder "./shared_vm2", "/vagrant_shared"
+	vm2.vm.provision "shell", inline: <<-SHELL
+		chmod +x /vagrant/provision_vm2.sh
+	SHELL
+    vm2.vm.provision "shell", path: "provision_vm2.sh"
+  end
+
+  # VM3: Загальнодоступний сервер зі статичним IP (bridge до інтерфейсу хоста)
+  config.vm.define "vm3" do |vm3|
+    vm3.vm.box = "bento/ubuntu-24.04"
+    vm3.vm.hostname = "public-static"
+    vm3.vm.network "public_network", bridge: "en0: Wi-Fi (AirPort)", ip: "192.168.2.120"
+    vm3.vm.synced_folder "./shared_vm3", "/vagrant_shared_vm3"
+  end
+
+end

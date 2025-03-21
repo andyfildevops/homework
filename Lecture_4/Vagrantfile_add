@@ -1,0 +1,19 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  (1..3).each do |i|
+    config.vm.define "vm#{i}" do |vm|
+      vm.vm.box = "bento/ubuntu-24.04"
+      vm.vm.hostname = "public-webserver-#{i}"
+      vm.vm.network "public_network", bridge: "Intel(R) Wi-Fi 6E AX210 160MHz"
+      vm.vm.synced_folder "./shared_vm#{i}", "/vagrant_shared"
+      vm.vm.provision "shell", inline: <<-SHELL
+        sudo apt update
+        sudo apt install -y nginx
+      SHELL
+    end
+  end
+
+end

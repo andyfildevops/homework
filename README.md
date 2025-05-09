@@ -125,3 +125,4 @@ projects-web-3     nginx:latest      "/docker-entrypoint.…"   web       7 seco
 ```
 
 ## Prepared on: 5/8/2025 By: Andrii Fil (IT Administrator, DevOps trainee)
+

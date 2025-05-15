@@ -6,3 +6,4 @@ metadata:
 data:
   index.html: |
     <html><body><h1>NGINX from ConfigMap</h1></body></html>
+

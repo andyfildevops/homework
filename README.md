@@ -87,3 +87,4 @@ kubectl port-forward -n nginx-demo svc/nginx-service 8080:80
 minikube stop
 ```
 
+## Prepared on: 5/15/2025 By: Andrii Fil (IT Administrator, DevOps trainee)

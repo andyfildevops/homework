@@ -24,7 +24,6 @@ services:
 
 volumes:
   db-data:
-  web-data:
 
 networks:
   appnet:
